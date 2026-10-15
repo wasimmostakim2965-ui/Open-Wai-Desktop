@@ -20,6 +20,13 @@ ignoredBuiltDependencies:
 
 overrides:
   isbinaryfile: ^5.0.0
+  # Build the main agent from our own Open-Wai fork instead of the public npm
+  # registry. The tarball is produced by .github/workflows/build-clawx-agent-tarball.yml
+  # on the Open-Wai `clawx-agent` branch and already contains the compiled dist/.
+  openclaw@2026.7.1-2: https://github.com/wasimmostakim2965-ui/Open-Wai/releases/download/clawx-agent/openclaw-2026.7.1-2.tgz
+  # Our tarball rewrites the workspace dep to 2026.7.1; pin the published
+  # revision so the runtime matches the version this build was validated on.
+  "@openclaw/ai": 2026.7.1-2
 
 supportedArchitectures:
   os:

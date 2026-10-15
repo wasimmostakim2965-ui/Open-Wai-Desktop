@@ -215,7 +215,7 @@ export async function createMenu(language?: string): Promise<void> {
         {
           label: labels.help.reportIssue,
           click: async () => {
-            await shell.openExternal('https://github.com/ValueCell-ai/ClawX/issues');
+            await shell.openExternal('https://github.com/wasimmostakim2965-ui/Open-Wai-Desktop/issues');
           },
         },
         { type: 'separator' },
