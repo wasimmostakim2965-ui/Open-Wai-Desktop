@@ -2,9 +2,8 @@
  * Auto-Updater Module
  * Handles automatic application updates using electron-updater
  *
- * Update providers are configured in electron-builder.yml (OSS primary, GitHub fallback).
- * For prerelease channels (alpha, beta), the feed URL is overridden at runtime
- * to point at the channel-specific OSS directory (e.g. /alpha/, /beta/).
+ * Updates are served from our own Open-Wai-Desktop GitHub releases
+ * (see the `publish` block in electron-builder.yml).
  */
 import { autoUpdater, UpdateInfo, ProgressInfo, UpdateDownloadedEvent } from 'electron-updater';
 import { BrowserWindow, app, ipcMain } from 'electron';
@@ -12,8 +11,9 @@ import { logger } from '../utils/logger';
 import { EventEmitter } from 'events';
 import { setQuitting } from './app-state';
 
-/** Base CDN URL (without trailing channel path) */
-const OSS_BASE_URL = 'https://oss.intelli-spectrum.com';
+/** GitHub release owner/repo that hosts our update feeds. */
+const UPDATE_OWNER = 'wasimmostakim2965-ui';
+const UPDATE_REPO = 'Open-Wai-Desktop';
 
 export interface UpdateStatus {
   status: 'idle' | 'checking' | 'available' | 'not-available' | 'downloading' | 'downloaded' | 'error';
@@ -70,10 +70,10 @@ export class AppUpdater extends EventEmitter {
     };
 
     // Override feed URL for prerelease channels so that
-    // alpha -> /alpha/alpha-mac.yml, beta -> /beta/beta-mac.yml, etc.
+    // alpha -> alpha-*.yml, beta -> beta-*.yml, etc.
     const version = app.getVersion();
     const channel = detectChannel(version);
-    const feedUrl = `${OSS_BASE_URL}/${channel}`;
+    const feedUrl = `github:${UPDATE_OWNER}/${UPDATE_REPO}`;
 
     logger.info(`[Updater] Version: ${version}, channel: ${channel}, feedUrl: ${feedUrl}`);
 
@@ -82,9 +82,10 @@ export class AppUpdater extends EventEmitter {
     autoUpdater.channel = channel;
 
     autoUpdater.setFeedURL({
-      provider: 'generic',
-      url: feedUrl,
-      useMultipleRangeRequest: false,
+      provider: 'github',
+      owner: UPDATE_OWNER,
+      repo: UPDATE_REPO,
+      releaseType: channel === 'latest' ? 'release' : 'prerelease',
     });
 
     this.setupListeners();

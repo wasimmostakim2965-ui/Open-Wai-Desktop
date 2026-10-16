@@ -1672,10 +1672,10 @@ index c0a416851d957f1edd9e675fb74d69c4f3d1fdbb..71e438fee1fe9f9323ae38c7dde3fdb5
    turnSourceChannel?: string | null;
    turnSourceTo?: string | null;
    turnSourceAccountId?: string | null;
-diff --git a/dist/index-D5wkwzkn.d.ts b/dist/index-D5wkwzkn.d.ts
+diff --git a/dist/index-M1N0XHTK.d.ts b/dist/index-M1N0XHTK.d.ts
 index 051154d525057e45118191a0da0eb383c555e308..79892037f889c6e977396570b4d86257351ce74c 100644
---- a/dist/index-D5wkwzkn.d.ts
-+++ b/dist/index-D5wkwzkn.d.ts
+--- a/dist/index-M1N0XHTK.d.ts
++++ b/dist/index-M1N0XHTK.d.ts
 @@ -168,6 +168,7 @@ declare const validateAgentIdentityParams: ProtocolValidator<{
  }>;
  declare const validateAgentWaitParams: ProtocolValidator<{
